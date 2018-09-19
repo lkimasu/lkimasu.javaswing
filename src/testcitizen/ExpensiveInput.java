@@ -120,7 +120,7 @@ public class ExpensiveInput extends JFrame {
 				expensive.setElectricity(electricity);
 				expensive.setWater(water);
 				expensive.setGas(gas);
-				expensive.setguardMoney(guardMoney);
+				expensive.setGuardMoney(guardMoney);
 				
 				if(month.trim().length() >0 && hosu.trim().length() >0 
 						&& textElectricity.getText().trim().length() >0
@@ -128,14 +128,25 @@ public class ExpensiveInput extends JFrame {
 						&& textGuardMoney.getText().trim().length() >0) {
 				
 					SqlTest sql = new SqlTest();
-					SqlTest.Einput(expensive);
+					int result =SqlTest.Einput(expensive);
 					
-					//잘 입력 되었다고 넣고, 메인 화면으로 돌아가기
-					
+					if(result == 1) {
+						JOptionPane.showMessageDialog(null,"성공","입력 성공",JOptionPane.OK_CANCEL_OPTION);
+					}else {
+						JOptionPane.showMessageDialog(null,"실패","입력 실패",JOptionPane.WARNING_MESSAGE);
+					}
 				}else {
 					
 					JOptionPane.showMessageDialog(null, "경고", "공백이 있습니다.", JOptionPane.WARNING_MESSAGE);
 				}
+			}
+				
+		});
+		exitBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);			
 			}
 			
 		});

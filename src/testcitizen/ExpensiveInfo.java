@@ -53,7 +53,6 @@ public class ExpensiveInfo extends JFrame {
 		List<Expensive> listA = null;
 		listA = sql.ExpensiveSearchAll();
 		data = new String[listA.size()][8];
-		
 		for(int i=0; i<listA.size(); i++) {
 			
 			data[i][0] =listA.get(i).getId();
@@ -62,8 +61,8 @@ public class ExpensiveInfo extends JFrame {
 			data[i][3] =String.valueOf(listA.get(i).getElectricity());
 			data[i][4] =String.valueOf(listA.get(i).getWater());
 			data[i][5] =String.valueOf(listA.get(i).getGas());
-			data[i][6] =String.valueOf(listA.get(i).getguardMoney());
-			data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getguardMoney());
+			data[i][6] =String.valueOf(listA.get(i).getGuardMoney());
+			data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
 		}
 		
 		model = new DefaultTableModel(data,colName);
@@ -110,7 +109,7 @@ public class ExpensiveInfo extends JFrame {
 				expensive.setElectricity(selectricity);
 				expensive.setWater(swater);
 				expensive.setGas(sgas);
-				expensive.setguardMoney(sgardmoney);
+				expensive.setGuardMoney(sgardmoney);
 				
 				SqlTest.updateExpensive(expensive);
 				formDesign();	
@@ -144,13 +143,18 @@ public class ExpensiveInfo extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 					String smonth =month.getText();
+					String shosu = hosu.getText();
+					String selectricity = electricity.getText();
+					String swater = water.getText();
+					String sgas = gas.getText();
+					String sgardmoney = gardmoney.getText();
 					SqlTest sql = new SqlTest();
+					List<Expensive> listA = null;
 					
 					//월별로 검색
 					if(smonth.trim().length() >0) {
-						
-						List<Expensive> listA = null;
-						listA = sql.searchHosuExpensive(smonth);
+							
+						listA = sql.searchMonthExpensive(smonth);
 						data = new String[listA.size()][8];
 						model.setRowCount(0);
 						for(int i=0; i<listA.size(); i++) {
@@ -161,20 +165,151 @@ public class ExpensiveInfo extends JFrame {
 							data[i][3]=String.valueOf(listA.get(i).getElectricity());
 							data[i][4]=String.valueOf(listA.get(i).getWater());
 							data[i][5]=String.valueOf(listA.get(i).getGas());
-							data[i][6]=String.valueOf(listA.get(i).getguardMoney());
-							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getguardMoney());
+							data[i][6]=String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
 							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
 						}
 						table=new JTable(model);
 						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
 						contentPane.add(panel,BorderLayout.SOUTH);
-					}else {
 						
-						JOptionPane.showMessageDialog(null, "공백이 있습니다.", "경고", JOptionPane.WARNING_MESSAGE);
+					//호수로 관리비 검색
+					}else if(shosu.trim().length()>0) {
+						
+						listA = sql.searchHosuExpensive(shosu);
+						data = new String[listA.size()][8];
+						model.setRowCount(0);
+						for(int i=0; i<listA.size(); i++) {
+							
+							data[i][0]=listA.get(i).getId();
+							data[i][1]=listA.get(i).getMonth();
+							data[i][2]=listA.get(i).getHosu();
+							data[i][3]=String.valueOf(listA.get(i).getElectricity());
+							data[i][4]=String.valueOf(listA.get(i).getWater());
+							data[i][5]=String.valueOf(listA.get(i).getGas());
+							data[i][6]=String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
+							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
+						}
+						table=new JTable(model);
+						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+						contentPane.add(panel,BorderLayout.SOUTH);
 					}
 					
+					//전기새로 검색
+					else if(selectricity.trim().length()>0) {
+						
+						listA = sql.searchElectricityExpensive(selectricity);
+						data = new String[listA.size()][8];
+						model.setRowCount(0);
+						for(int i=0; i<listA.size(); i++) {
+							
+							data[i][0]=listA.get(i).getId();
+							data[i][1]=listA.get(i).getMonth();
+							data[i][2]=listA.get(i).getHosu();
+							data[i][3]=String.valueOf(listA.get(i).getElectricity());
+							data[i][4]=String.valueOf(listA.get(i).getWater());
+							data[i][5]=String.valueOf(listA.get(i).getGas());
+							data[i][6]=String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
+							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
+						}
+						table=new JTable(model);
+						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+						contentPane.add(panel,BorderLayout.SOUTH);
+						
+					//물세로 검색
+					}else if(swater.trim().length()>0) {
+						
+						listA = sql.searchWaterExpensive(swater);
+						data = new String[listA.size()][8];
+						model.setRowCount(0);
+						for(int i=0; i<listA.size(); i++) {
+							
+							data[i][0]=listA.get(i).getId();
+							data[i][1]=listA.get(i).getMonth();
+							data[i][2]=listA.get(i).getHosu();
+							data[i][3]=String.valueOf(listA.get(i).getElectricity());
+							data[i][4]=String.valueOf(listA.get(i).getWater());
+							data[i][5]=String.valueOf(listA.get(i).getGas());
+							data[i][6]=String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
+							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
+						}
+						table=new JTable(model);
+						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+						contentPane.add(panel,BorderLayout.SOUTH);
+					}
+					//가스비로 검색
+					else if(sgas.trim().length()>0) {
+						
+						listA = sql.searchGasExpensive(sgas);
+						data = new String[listA.size()][8];
+						model.setRowCount(0);
+						for(int i=0; i<listA.size(); i++) {
+							
+							data[i][0]=listA.get(i).getId();
+							data[i][1]=listA.get(i).getMonth();
+							data[i][2]=listA.get(i).getHosu();
+							data[i][3]=String.valueOf(listA.get(i).getElectricity());
+							data[i][4]=String.valueOf(listA.get(i).getWater());
+							data[i][5]=String.valueOf(listA.get(i).getGas());
+							data[i][6]=String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
+							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
+						}
+						table=new JTable(model);
+						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+						contentPane.add(panel,BorderLayout.SOUTH);
+					}
+					//경비비로 검색
+					else if(sgardmoney.trim().length()>0) {
+						
+						listA = sql.searchGardmoneyExpensive(sgardmoney);
+						data = new String[listA.size()][8];
+						model.setRowCount(0);
+						for(int i=0; i<listA.size(); i++) {
+							
+							data[i][0]=listA.get(i).getId();
+							data[i][1]=listA.get(i).getMonth();
+							data[i][2]=listA.get(i).getHosu();
+							data[i][3]=String.valueOf(listA.get(i).getElectricity());
+							data[i][4]=String.valueOf(listA.get(i).getWater());
+							data[i][5]=String.valueOf(listA.get(i).getGas());
+							data[i][6]=String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
+							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
+						}
+						table=new JTable(model);
+						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+						contentPane.add(panel,BorderLayout.SOUTH);
+					}
+					//공백일 경우 전체 검색
+					else {
+						
+						listA = sql.ExpensiveSearchAll();
+						data = new String[listA.size()][8];
+						model.setRowCount(0);
+						
+						for(int i=0; i<listA.size(); i++) {
+							
+							data[i][0] =listA.get(i).getId();
+							data[i][1] =listA.get(i).getMonth();
+							data[i][2] =listA.get(i).getHosu();
+							data[i][3] =String.valueOf(listA.get(i).getElectricity());
+							data[i][4] =String.valueOf(listA.get(i).getWater());
+							data[i][5] =String.valueOf(listA.get(i).getGas());
+							data[i][6] =String.valueOf(listA.get(i).getGuardMoney());
+							data[i][7] =String.valueOf(listA.get(i).getElectricity()+listA.get(i).getWater()+listA.get(i).getGas()+listA.get(i).getGuardMoney());
+							model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5],data[i][6],data[i][7]});
+						}
+						
+						table=new JTable(model);
+						contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+						contentPane.add(panel,BorderLayout.SOUTH);
+					
+					}
 				}
-				
 			});
 			
 	}

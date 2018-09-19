@@ -148,15 +148,22 @@ public class CitizenInfo extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String shosu = hosu.getText();
+				String sname = name.getText();
+				String sphone = phone.getText();
+				String smember = member.getText();
+				String semail = email.getText();
+				
 				SqlTest sql = new SqlTest();
+				List<Citizen> listA = null;
 				
 				//호수로 검색
 				if(shosu.trim().length() >0) {
 					
-					List<Citizen> listA = null;
+					
 					listA = sql.searchHouscitizen(shosu);
 					data = new String[listA.size()][6];
 					model.setRowCount(0);
+					
 					for(int i=0; i<listA.size(); i++) {
 						
 						data[i][0] =listA.get(i).getId();
@@ -170,11 +177,110 @@ public class CitizenInfo extends JFrame{
 					table=new JTable(model);
 					contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
 					contentPane.add(panel,BorderLayout.SOUTH);
-				}else {
 					
-					JOptionPane.showMessageDialog(null, "공백이 있습니다.", "경고", JOptionPane.WARNING_MESSAGE);
+				}else if(sname.trim().length()>0) {
+					
+					listA = sql.searchNamecitizen(sname);
+					data = new String[listA.size()][6];
+					model.setRowCount(0);
+					
+					for(int i=0; i<listA.size(); i++) {
+						
+						data[i][0] =listA.get(i).getId();
+						data[i][1] =listA.get(i).getHosu();
+						data[i][2] =listA.get(i).getName();
+						data[i][3] =listA.get(i).getPhone();
+						data[i][4] =listA.get(i).getMember();
+						data[i][5] =listA.get(i).getEmail();
+						model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5]});
+					}
+					table=new JTable(model);
+					contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+					contentPane.add(panel,BorderLayout.SOUTH);
+					
+				}else if(sphone.trim().length()>0) {
+					
+					listA = sql.searchPhonecitizen(sphone);
+					data = new String[listA.size()][6];
+					model.setRowCount(0);
+					
+					for(int i=0; i<listA.size(); i++) {
+						
+						data[i][0] =listA.get(i).getId();
+						data[i][1] =listA.get(i).getHosu();
+						data[i][2] =listA.get(i).getName();
+						data[i][3] =listA.get(i).getPhone();
+						data[i][4] =listA.get(i).getMember();
+						data[i][5] =listA.get(i).getEmail();
+						model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5]});
+					}
+					table=new JTable(model);
+					contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+					contentPane.add(panel,BorderLayout.SOUTH);
+					
+				}
+				else if(smember.trim().length()>0) {
+					
+					listA = sql.searchMembercitizen(smember);
+					data = new String[listA.size()][6];
+					model.setRowCount(0);
+					
+					for(int i=0; i<listA.size(); i++) {
+						
+						data[i][0] =listA.get(i).getId();
+						data[i][1] =listA.get(i).getHosu();
+						data[i][2] =listA.get(i).getName();
+						data[i][3] =listA.get(i).getPhone();
+						data[i][4] =listA.get(i).getMember();
+						data[i][5] =listA.get(i).getEmail();
+						model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5]});
+					}
+					table=new JTable(model);
+					contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+					contentPane.add(panel,BorderLayout.SOUTH);
+				}
+				else if(semail.trim().length()>0) {
+					
+					listA = sql.searchEmailcitizen(semail);
+					data = new String[listA.size()][6];
+					model.setRowCount(0);
+					
+					for(int i=0; i<listA.size(); i++) {
+						
+						data[i][0] =listA.get(i).getId();
+						data[i][1] =listA.get(i).getHosu();
+						data[i][2] =listA.get(i).getName();
+						data[i][3] =listA.get(i).getPhone();
+						data[i][4] =listA.get(i).getMember();
+						data[i][5] =listA.get(i).getEmail();
+						model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5]});
+					}
+					table=new JTable(model);
+					contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+					contentPane.add(panel,BorderLayout.SOUTH);
 				}
 				
+				//공백일 경우 전체 검색
+				else {
+					
+					listA = sql.CitizenSearchAll();
+					data = new String[listA.size()][6];
+					model.setRowCount(0);
+					
+					for(int i=0; i<listA.size(); i++) {
+						
+						data[i][0] =listA.get(i).getId();
+						data[i][1] =listA.get(i).getHosu();
+						data[i][2] =listA.get(i).getName();
+						data[i][3] =listA.get(i).getPhone();
+						data[i][4] =listA.get(i).getMember();
+						data[i][5] =listA.get(i).getEmail();
+						model.addRow(new Object[] {data[i][0],data[i][1],data[i][2],data[i][3],data[i][4],data[i][5]});
+					}
+					table=new JTable(model);
+					contentPane.add(new JScrollPane(table),BorderLayout.CENTER);
+					contentPane.add(panel,BorderLayout.SOUTH);
+				}
 			}
 			
 		});

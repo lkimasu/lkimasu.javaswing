@@ -47,11 +47,11 @@ public class Expensive {
 	public void setGas(int gas) {
 		this.gas = gas;
 	}
-	public int getguardMoney() {
+	public int getGuardMoney() {
 		return guardMoney;
 	}
-	public void setguardMoney(int guardMoney) {
-		guardMoney = guardMoney;
+	public void setGuardMoney(int guardMoney) {
+		this.guardMoney = guardMoney;
 	}
 	public int getsum() {
 		return sum;

@@ -75,6 +75,7 @@ public class CitizenInput extends JFrame {
 	}
 	
 	public void eventHandler() {
+		
 		btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
@@ -99,9 +100,13 @@ public class CitizenInput extends JFrame {
 							&& sarm.trim().length() >0 && Eamil1.trim().length() >0 ) {
 					
 						SqlTest sql = new SqlTest();
-						SqlTest.insert(citizen);
+						int result = SqlTest.insert(citizen);
 						
-						//잘 입력 되었다고 넣고, 메인 화면으로 돌아가기
+						if(result == 1) {
+							JOptionPane.showMessageDialog(null,"성공","입력 성공",JOptionPane.OK_CANCEL_OPTION);
+						}else {
+							JOptionPane.showMessageDialog(null,"실패","입력 실패",JOptionPane.WARNING_MESSAGE);
+						}
 						
 					}else {
 						
@@ -115,7 +120,7 @@ public class CitizenInput extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//취소 버튼				
+				System.exit(0);			
 			}
 			
 		});
